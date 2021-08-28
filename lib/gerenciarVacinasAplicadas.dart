@@ -20,11 +20,13 @@ class Paciente {
   Paciente(this.name, this.age);
 }
 
+//listTile with search
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
+//listTile with search
 class _HomePageState extends State<HomePage> {
   // This holds a list of fiction users
   // You can use data fetched from a database or cloud as well
@@ -105,15 +107,10 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 new MaterialPageRoute(
                                     builder: (context) =>
-                                        new PacienteInformacao(
+                                        new PacienteInformacaoProMedico(
                                             paciente: new Paciente(
                                                 _foundUsers[index]['name'],
                                                 "28"))));
-                            //Navigator.push(
-                            //context,
-                            //MaterialPageRoute(
-                            //builder: (context) =>
-                            //PacienteInformacao()));
                           },
                           leading: Icon(
                             Icons.account_circle,
@@ -137,10 +134,10 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class PacienteInformacao extends StatelessWidget {
+class PacienteInformacaoProMedico extends StatelessWidget {
   final Paciente paciente;
 
-  const PacienteInformacao({Key key, this.paciente}) : super(key: key);
+  const PacienteInformacaoProMedico({Key key, this.paciente}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +146,41 @@ class PacienteInformacao extends StatelessWidget {
         title: const Text("Vacinas Aplicadas"),
       ),
       body: Center(
-        child: Text(paciente.name),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            //Alterções quanto ao front devem ser implementadas no InputDecoration, lembrar de disabilitar o
+            //TextFormFild sim usar enabled : false, pois este cancela as alterções de InputDecoration
+            TextFormField(
+              initialValue: paciente.name,
+              enabled: false,
+              decoration: InputDecoration(
+                labelText: 'Nome:',
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            //condicao Especial (lembrar de alocar do banco aqui dps no initialValue)
+            TextFormField(
+              initialValue: paciente.name,
+              enabled: false,
+              decoration:
+                  const InputDecoration(labelText: 'Condicao Especial:'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            //data Nascimento (fica pro futuro)
+            TextFormField(
+              initialValue: paciente.name,
+              enabled: false,
+              decoration: const InputDecoration(labelText: 'Data Nascimento:'),
+            ),
+          ],
+        ),
       ),
     );
   }
