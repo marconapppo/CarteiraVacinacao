@@ -13,6 +13,13 @@ class VacinasAplicadas extends StatelessWidget {
   }
 }
 
+class Paciente {
+  final String name;
+  final String age;
+
+  Paciente(this.name, this.age);
+}
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -93,7 +100,20 @@ class _HomePageState extends State<HomePage> {
                         margin: EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
                           //continuação trab
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new PacienteInformacao(
+                                            paciente: new Paciente(
+                                                "Priyank", "28"))));
+                            //Navigator.push(
+                            //context,
+                            //MaterialPageRoute(
+                            //builder: (context) =>
+                            //PacienteInformacao()));
+                          },
                           leading: Icon(
                             Icons.account_circle,
                             color: Colors.black,
@@ -111,6 +131,24 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PacienteInformacao extends StatelessWidget {
+  final Paciente paciente;
+
+  const PacienteInformacao({Key key, this.paciente}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Vacinas Aplicadas"),
+      ),
+      body: Center(
+        child: Text(paciente.name),
       ),
     );
   }
