@@ -107,7 +107,8 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context) =>
                                         new PacienteInformacao(
                                             paciente: new Paciente(
-                                                "Priyank", "28"))));
+                                                _foundUsers[index]['name'],
+                                                "28"))));
                             //Navigator.push(
                             //context,
                             //MaterialPageRoute(
