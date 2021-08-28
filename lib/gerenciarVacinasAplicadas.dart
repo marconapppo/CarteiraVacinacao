@@ -8,60 +8,110 @@ class VacinasAplicadas extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Vacinas Aplicadas"),
       ),
-      body: TabelaPacientes(),
+      body: HomePage(),
     );
   }
 }
 
-class TabelaPacientes extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // This holds a list of fiction users
+  // You can use data fetched from a database or cloud as well
+  final List<Map<String, dynamic>> _allUsers = [
+    {"id": 1, "name": "Andy", "age": 29},
+    {"id": 2, "name": "Aragon", "age": 40},
+    {"id": 3, "name": "Bob", "age": 5},
+    {"id": 4, "name": "Barbara", "age": 35},
+    {"id": 5, "name": "Candy", "age": 21},
+    {"id": 6, "name": "Colin", "age": 55},
+    {"id": 7, "name": "Audra", "age": 30},
+    {"id": 8, "name": "Banana", "age": 14},
+    {"id": 9, "name": "Caversky", "age": 100},
+    {"id": 10, "name": "Becky", "age": 32},
+  ];
+
+  // This list holds the data for the list view
+  List<Map<String, dynamic>> _foundUsers = [];
+  @override
+  initState() {
+    // at the beginning, all users are shown
+    _foundUsers = _allUsers;
+    super.initState();
+  }
+
+  // This function is called whenever the text field changes
+  void _runFilter(String enteredKeyword) {
+    List<Map<String, dynamic>> results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = _allUsers;
+    } else {
+      results = _allUsers
+          .where((user) =>
+              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+
+    // Refresh the UI
+    setState(() {
+      _foundUsers = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DataTable(
-      sortColumnIndex: 0,
-      sortAscending: true,
-      columns: const <DataColumn>[
-        DataColumn(
-          label: Text(
-            'Pacientes',
-            //style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
-        DataColumn(
-          label: Text(
-            'Age',
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
-        DataColumn(
-          label: Text(
-            'Role',
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
-      ],
-      rows: const <DataRow>[
-        DataRow(
-          cells: <DataCell>[
-            DataCell(Text('Sarah')),
-            DataCell(Text('19')),
-            DataCell(Text('Student')),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              onChanged: (value) => _runFilter(value),
+              decoration: InputDecoration(
+                  labelText: 'Search', suffixIcon: Icon(Icons.search)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: _foundUsers.length > 0
+                  ? ListView.builder(
+                      itemCount: _foundUsers.length,
+                      // front-end
+                      itemBuilder: (context, index) => Card(
+                        key: ValueKey(_foundUsers[index]["id"]),
+                        color: Colors.blue,
+                        elevation: 4,
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: ListTile(
+                          //continuação trab
+                          onTap: () {},
+                          leading: Icon(
+                            Icons.account_circle,
+                            color: Colors.black,
+                          ),
+                          title: Text(_foundUsers[index]['name']),
+                          subtitle: Text(
+                              '${_foundUsers[index]["age"].toString()} years old'),
+                        ),
+                      ),
+                    )
+                  : Text(
+                      'No results found',
+                      style: TextStyle(fontSize: 24),
+                    ),
+            ),
           ],
         ),
-        DataRow(
-          cells: <DataCell>[
-            DataCell(Text('Janine')),
-            DataCell(Text('43')),
-            DataCell(Text('Professor')),
-          ],
-        ),
-        DataRow(
-          cells: <DataCell>[
-            DataCell(Text('William')),
-            DataCell(Text('27')),
-            DataCell(Text('Associate Professor')),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }
