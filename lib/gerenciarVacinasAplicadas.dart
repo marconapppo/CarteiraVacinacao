@@ -14,13 +14,6 @@ class VacinasAplicadas extends StatelessWidget {
   }
 }
 
-class Paciente {
-  final String name;
-  final String age;
-
-  Paciente(this.name, this.age);
-}
-
 //listTile with search
 class HomePage extends StatefulWidget {
   @override
@@ -149,11 +142,9 @@ class PacienteInformacaoProMedico extends StatefulWidget {
 
 class _PacienteInformacaoProMedicoState
     extends State<PacienteInformacaoProMedico> {
-  var parts = ["teste", "head"];
-
   final List<Map<String, dynamic>> _allVacinas = [
-    {"id": 1, "name": "Hepatite B", "age": 29},
-    {"id": 2, "name": "Pfzier", "age": 40},
+    {"id": 1, "name": "Hepatite B", "dose": 2},
+    {"id": 2, "name": "Pfzier", "dose": 1},
   ];
 
   @override
@@ -199,6 +190,19 @@ class _PacienteInformacaoProMedicoState
             SizedBox(
               height: 20,
             ),
+            ElevatedButton(
+              //style: style,
+              onPressed: () {},
+              child: const Text('inserir'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              //style: style,
+              onPressed: () {},
+              child: const Text('excluir'),
+            ),
             Expanded(
               child: _allVacinas.length > 0
                   ? ListView.builder(
@@ -212,18 +216,17 @@ class _PacienteInformacaoProMedicoState
                         child: ListTile(
                           //continuação trab
                           onTap: () {
-                            //print(_allVacinas);
                             setState(() {
-                              _allVacinas.removeAt(0);
+                              //_allVacinas.removeAt(0);
                             });
                           },
                           leading: Icon(
-                            Icons.account_circle,
+                            Icons.colorize_sharp,
                             color: Colors.black,
                           ),
                           title: Text(_allVacinas[index]['name']),
                           subtitle: Text(
-                              '${_allVacinas[index]["age"].toString()} years old'),
+                              '${_allVacinas[index]["dose"].toString()} dose'),
                         ),
                       ),
                     )
