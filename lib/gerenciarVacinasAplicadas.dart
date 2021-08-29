@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vacina/models/models.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 
 class VacinasAplicadas extends StatelessWidget {
@@ -134,10 +135,26 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class PacienteInformacaoProMedico extends StatelessWidget {
+class PacienteInformacaoProMedico extends StatefulWidget {
   final Paciente paciente;
 
-  const PacienteInformacaoProMedico({Key key, this.paciente}) : super(key: key);
+  PacienteInformacaoProMedico({Key key, this.paciente}) : super(key: key);
+
+  final List<Vacinas> _vacinas = List();
+
+  @override
+  _PacienteInformacaoProMedicoState createState() =>
+      _PacienteInformacaoProMedicoState();
+}
+
+class _PacienteInformacaoProMedicoState
+    extends State<PacienteInformacaoProMedico> {
+  var parts = ["teste", "head"];
+
+  final List<Map<String, dynamic>> _allVacinas = [
+    {"id": 1, "name": "Hepatite B", "age": 29},
+    {"id": 2, "name": "Pfzier", "age": 40},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +171,7 @@ class PacienteInformacaoProMedico extends StatelessWidget {
             //Alterções quanto ao front devem ser implementadas no InputDecoration, lembrar de disabilitar o
             //TextFormFild sim usar enabled : false, pois este cancela as alterções de InputDecoration
             TextFormField(
-              initialValue: paciente.name,
+              initialValue: widget.paciente.name,
               enabled: false,
               decoration: InputDecoration(
                 labelText: 'Nome:',
@@ -165,7 +182,7 @@ class PacienteInformacaoProMedico extends StatelessWidget {
             ),
             //condicao Especial (lembrar de alocar do banco aqui dps no initialValue)
             TextFormField(
-              initialValue: paciente.name,
+              initialValue: widget.paciente.name,
               enabled: false,
               decoration:
                   const InputDecoration(labelText: 'Condicao Especial:'),
@@ -175,13 +192,57 @@ class PacienteInformacaoProMedico extends StatelessWidget {
             ),
             //data Nascimento (fica pro futuro)
             TextFormField(
-              initialValue: paciente.name,
+              initialValue: widget.paciente.name,
               enabled: false,
               decoration: const InputDecoration(labelText: 'Data Nascimento:'),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: _allVacinas.length > 0
+                  ? ListView.builder(
+                      itemCount: _allVacinas.length,
+                      // front-end
+                      itemBuilder: (context, index) => Card(
+                        key: ValueKey(_allVacinas[index]["id"]),
+                        color: Colors.blue,
+                        elevation: 4,
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: ListTile(
+                          //continuação trab
+                          onTap: () {
+                            //print(_allVacinas);
+                            setState(() {
+                              _allVacinas.removeAt(0);
+                            });
+                          },
+                          leading: Icon(
+                            Icons.account_circle,
+                            color: Colors.black,
+                          ),
+                          title: Text(_allVacinas[index]['name']),
+                          subtitle: Text(
+                              '${_allVacinas[index]["age"].toString()} years old'),
+                        ),
+                      ),
+                    )
+                  : Text(
+                      'No results found',
+                      style: TextStyle(fontSize: 24),
+                    ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _atualiza(Vacinas vacinas) {
+    if (vacinas != null) {
+      setState(() {
+        widget._vacinas.add(vacinas);
+      });
+    }
   }
 }
