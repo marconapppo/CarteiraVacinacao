@@ -221,7 +221,7 @@ class _PacienteInformacaoProMedicoState
                             });
                           },
                           leading: Icon(
-                            Icons.colorize_sharp,
+                            Icons.medical_services_outlined,
                             color: Colors.black,
                           ),
                           title: Text(_allVacinas[index]['name']),
