@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vacina/models/models.dart';
+import 'package:vacina/banco/bancoFlutterDocs.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 
 class VacinasAplicadas extends StatelessWidget {
@@ -22,6 +23,10 @@ class HomePage extends StatefulWidget {
 
 //listTile with search
 class _HomePageState extends State<HomePage> {
+  //inicializador do banco
+  final dbHelper = DatabaseHelper.instance;
+  List<Map<String, dynamic>> pacientes;
+
   // This holds a list of fiction users
   // You can use data fetched from a database or cloud as well
   final List<Map<String, dynamic>> _allUsers = [
@@ -42,7 +47,14 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     // at the beginning, all users are shown
-    _foundUsers = _allUsers;
+
+    //utilizando then para futuro
+    dbHelper.allPaciente().then((value) {
+      setState(() {
+        pacientes = value;
+        _foundUsers = pacientes;
+      });
+    });
     super.initState();
   }
 
@@ -51,9 +63,9 @@ class _HomePageState extends State<HomePage> {
     List<Map<String, dynamic>> results = [];
     if (enteredKeyword.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
-      results = _allUsers;
+      results = pacientes;
     } else {
-      results = _allUsers
+      results = pacientes
           .where((user) =>
               user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
@@ -127,6 +139,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+//dentro do nome paciente
 
 class PacienteInformacaoProMedico extends StatefulWidget {
   final Paciente paciente;

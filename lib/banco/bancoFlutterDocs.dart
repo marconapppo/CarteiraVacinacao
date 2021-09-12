@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:postgres/postgres.dart';
 
 class DatabaseHelper {
@@ -21,11 +24,18 @@ class DatabaseHelper {
     return conn;
   }
 
-  void allQuery() async {
+  Future<List<Map<String, dynamic>>> allPaciente() async {
     PostgreSQLConnection db = await instance.database;
-    print("Entrando em allQuery");
-    var results = await db.query('SELECT NOME FROM PACIENTE');
-    print("resultados:" + results.toString());
-    print("resultados:" + results[0].toString());
+    var results = await db.query('SELECT * FROM PACIENTE');
+
+    //transformando em lista
+    List<Map<String, dynamic>> listaPacientes = [];
+    Map<String, dynamic> map;
+    for (var row in results) {
+      map = {"id": row[0], "name": row[1], "age": row[2]};
+      listaPacientes.add(Map.from(map));
+    }
+
+    return listaPacientes;
   }
 }
