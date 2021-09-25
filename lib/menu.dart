@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vacina/gerenciarPacientes.dart';
 import 'package:vacina/gerenciarVacinasAplicadas.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 
@@ -29,7 +30,12 @@ class Menu extends StatelessWidget {
               primary: Colors.black,
               textStyle: const TextStyle(fontSize: 20),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => GerenciarPacientes()));
+            },
             child: const Text('Gerenciar Pacientes'),
           ),
           const SizedBox(height: 30),

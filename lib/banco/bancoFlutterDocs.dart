@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:postgres/postgres.dart';
+import 'package:vacina/models/models.dart';
 
 class DatabaseHelper {
   // make this a singleton class
@@ -37,5 +38,15 @@ class DatabaseHelper {
     }
 
     return listaPacientes;
+  }
+
+  Future<void> inserirPaciente(Paciente paciente) async {
+    PostgreSQLConnection db = await instance.database;
+    //INSERT INTO PACIENTE (NOME,IDADE) VALUES ('Sara',85);
+    await db.query("INSERT INTO PACIENTE (NOME,IDADE) VALUES ('" +
+        paciente.name +
+        "'," +
+        paciente.age.toString() +
+        ")");
   }
 }

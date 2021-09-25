@@ -116,7 +116,8 @@ class _HomePageState extends State<HomePage> {
                                         new PacienteInformacaoProMedico(
                                             paciente: new Paciente(
                                                 _foundUsers[index]['name'],
-                                                "28"))));
+                                                int.parse(_foundUsers[index]
+                                                    ['age'])))));
                           },
                           leading: Icon(
                             Icons.account_circle,
@@ -197,7 +198,7 @@ class _PacienteInformacaoProMedicoState
             ),
             //data Nascimento (fica pro futuro)
             TextFormField(
-              initialValue: widget.paciente.name,
+              initialValue: widget.paciente.age.toString(),
               enabled: false,
               decoration: const InputDecoration(labelText: 'Data Nascimento:'),
             ),
