@@ -27,21 +27,6 @@ class _HomePageState extends State<HomePage> {
   final dbHelper = DatabaseHelper.instance;
   List<Map<String, dynamic>> pacientes;
 
-  // This holds a list of fiction users
-  // You can use data fetched from a database or cloud as well
-  final List<Map<String, dynamic>> _allUsers = [
-    {"id": 1, "name": "Andy", "age": 29},
-    {"id": 2, "name": "Aragon", "age": 40},
-    {"id": 3, "name": "Bob", "age": 5},
-    {"id": 4, "name": "Barbara", "age": 35},
-    {"id": 5, "name": "Candy", "age": 21},
-    {"id": 6, "name": "Colin", "age": 55},
-    {"id": 7, "name": "Audra", "age": 30},
-    {"id": 8, "name": "Banana", "age": 14},
-    {"id": 9, "name": "Caversky", "age": 100},
-    {"id": 10, "name": "Becky", "age": 32},
-  ];
-
   // This list holds the data for the list view
   List<Map<String, dynamic>> _foundUsers = [];
   @override
@@ -114,18 +99,16 @@ class _HomePageState extends State<HomePage> {
                                 new MaterialPageRoute(
                                     builder: (context) =>
                                         new PacienteInformacaoProMedico(
-                                            paciente: new Paciente(
-                                                _foundUsers[index]['name'],
-                                                int.parse(_foundUsers[index]
-                                                    ['age'])))));
+                                            pacienteId: int.parse(
+                                                _foundUsers[index]["id"]))));
                           },
                           leading: Icon(
                             Icons.account_circle,
                             color: Colors.black,
                           ),
                           title: Text(_foundUsers[index]['name']),
-                          subtitle: Text(
-                              '${_foundUsers[index]["age"].toString()} years old'),
+                          subtitle:
+                              Text('${_foundUsers[index]["email"]} years old'),
                         ),
                       ),
                     )
@@ -144,11 +127,9 @@ class _HomePageState extends State<HomePage> {
 //dentro do nome paciente
 
 class PacienteInformacaoProMedico extends StatefulWidget {
-  final Paciente paciente;
+  final int pacienteId;
 
-  PacienteInformacaoProMedico({Key key, this.paciente}) : super(key: key);
-
-  final List<Vacinas> _vacinas = List();
+  PacienteInformacaoProMedico({Key key, this.pacienteId}) : super(key: key);
 
   @override
   _PacienteInformacaoProMedicoState createState() =>
@@ -157,6 +138,19 @@ class PacienteInformacaoProMedico extends StatefulWidget {
 
 class _PacienteInformacaoProMedicoState
     extends State<PacienteInformacaoProMedico> {
+  final dbHelper = DatabaseHelper.instance;
+  Paciente paciente;
+
+  @override
+  void initState() {
+    dbHelper.getPaciente(widget.pacienteId).then((value) {
+      setState(() {
+        paciente = value;
+      });
+    });
+    super.initState();
+  }
+
   final List<Map<String, dynamic>> _allVacinas = [
     {"id": 1, "name": "Hepatite B", "dose": 2},
     {"id": 2, "name": "Pfzier", "dose": 1},
@@ -177,7 +171,7 @@ class _PacienteInformacaoProMedicoState
             //Alterções quanto ao front devem ser implementadas no InputDecoration, lembrar de disabilitar o
             //TextFormFild sim usar enabled : false, pois este cancela as alterções de InputDecoration
             TextFormField(
-              initialValue: widget.paciente.name,
+              initialValue: paciente.name,
               enabled: false,
               decoration: InputDecoration(
                 labelText: 'Nome:',
@@ -188,7 +182,7 @@ class _PacienteInformacaoProMedicoState
             ),
             //condicao Especial (lembrar de alocar do banco aqui dps no initialValue)
             TextFormField(
-              initialValue: widget.paciente.name,
+              initialValue: paciente.condicaoEspecial,
               enabled: false,
               decoration:
                   const InputDecoration(labelText: 'Condicao Especial:'),
@@ -198,7 +192,7 @@ class _PacienteInformacaoProMedicoState
             ),
             //data Nascimento (fica pro futuro)
             TextFormField(
-              initialValue: widget.paciente.age.toString(),
+              initialValue: paciente.dataNasc,
               enabled: false,
               decoration: const InputDecoration(labelText: 'Data Nascimento:'),
             ),
@@ -254,13 +248,5 @@ class _PacienteInformacaoProMedicoState
         ),
       ),
     );
-  }
-
-  void _atualiza(Vacinas vacinas) {
-    if (vacinas != null) {
-      setState(() {
-        widget._vacinas.add(vacinas);
-      });
-    }
   }
 }

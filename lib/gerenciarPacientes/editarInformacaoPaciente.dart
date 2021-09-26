@@ -110,14 +110,14 @@ class _HomePageState extends State<HomePage> {
                         child: ListTile(
                           //continuação trab
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) =>
-                                        new EditandoInformacaoPacienteMenu(
-                                            paciente: new Paciente(
-                                                _foundUsers[index]['name'],
-                                                28))));
+                            // Navigator.push(
+                            //     context,
+                            //     new MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             new EditandoInformacaoPacienteMenu(
+                            //                 paciente: new Paciente(
+                            //                     _foundUsers[index]['name'],
+                            //                     28))));
                           },
                           leading: Icon(
                             Icons.account_circle,

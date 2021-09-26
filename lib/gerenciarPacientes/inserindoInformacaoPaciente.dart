@@ -48,9 +48,9 @@ class InserindoInformacaoPacienteMenu extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  Paciente paciente = new Paciente(nomePacienteController.text,
-                      int.parse(idadePacienteController.text));
-                  dbHelper.inserirPaciente(paciente);
+                  // Paciente paciente = new Paciente(nomePacienteController.text,
+                  //     int.parse(idadePacienteController.text));
+                  // dbHelper.inserirPaciente(paciente);
                 },
                 child: const Text('Inserir Paciente'),
               )
