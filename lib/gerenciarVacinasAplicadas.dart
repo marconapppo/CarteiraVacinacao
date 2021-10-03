@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vacina/models/models.dart';
 import 'package:vacina/banco/bancoFlutterDocs.dart';
+import 'package:vacina/vacinasAplicadas/inserindoVacinasAplicadas.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 
 class VacinasAplicadas extends StatelessWidget {
@@ -141,8 +142,6 @@ class _PacienteInformacaoProMedicoState
   final dbHelper = DatabaseHelper.instance;
   Paciente paciente;
 
-  TextEditingController vacinaNomeController = new TextEditingController();
-
   @override
   void initState() {
     dbHelper.getPaciente(widget.pacienteId).then((value) {
@@ -204,31 +203,11 @@ class _PacienteInformacaoProMedicoState
             ElevatedButton(
               //style: style,
               onPressed: () {
-                //pop up para receber o nome da vacina
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("teste"),
-                        content: TextField(
-                          controller: vacinaNomeController,
-                        ),
-                        actions: <Widget>[
-                          MaterialButton(
-                            elevation: 5.0,
-                            child: Text('Submit'),
-                            onPressed: () {
-                              print("ROLAAAAAAAA");
-                              print(vacinaNomeController.value.text);
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
-                      );
-                    });
-                print("ROLAAAAAAAA");
-                print(vacinaNomeController.value.text);
-                //inserindo no banco a vacina aplicada no paciente
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            InserindoVacinasAplicadas(paciente.name)));
               },
               child: const Text('inserir'),
             ),
