@@ -29,8 +29,7 @@ class DatabaseHelper {
   Future<List<Map<String, String>>> allPaciente() async {
     PostgreSQLConnection db = await instance.database;
     var results = await db.query(
-        'SELECT PACIENTE.paciente_id,PESSOA.NOME,PESSOA.EMAIL FROM PACIENTE ' +
-            'INNER JOIN PESSOA ON PESSOA.pessoa_id = PACIENTE.pessoa_id');
+        'SELECT PACIENTE.paciente_id,PACIENTE.NOME,PACIENTE.EMAIL FROM PACIENTE ');
 
     //transformando em lista
     List<Map<String, String>> listaPacientes = [];
@@ -57,9 +56,8 @@ class DatabaseHelper {
   Future<Paciente> getPaciente(int pacienteId) async {
     PostgreSQLConnection db = await instance.database;
     var results = await db.query(
-        'SELECT PESSOA.NOME, PACIENTE.CONDICAO_ESPECIAL, PESSOA.DATA_NASC FROM PACIENTE ' +
-            'INNER JOIN PESSOA ON PESSOA.pessoa_id = PACIENTE.pessoa_id ' +
-            'WHERE PACIENTE.PESSOA_ID = ' +
+        'SELECT PACIENTE.NOME, PACIENTE.CONDICAO_ESPECIAL, PACIENTE.DATA_NASC FROM PACIENTE ' +
+            'WHERE PACIENTE.PACIENTE_ID = ' +
             pacienteId.toString());
     //vai ter só uma linha, somente pra conversão msm
     Paciente paciente;
@@ -86,27 +84,42 @@ class DatabaseHelper {
 
   Future<void> inserirVacina(Vacina vacina) async {
     PostgreSQLConnection db = await instance.database;
-    await db.query("INSERT INTO VACINA (LOTE, VALIDADE, QUANTIDADE, LAB_ID)" +
-        "VALUES (" +
-        vacina.lote.toString() +
-        ", '" +
-        vacina.validade.toString() +
-        "'," +
-        vacina.quantidade.toString() +
-        "," +
-        "(SELECT LABORATORIO.LAB_ID FROM LABORATORIO WHERE LABORATORIO.NOME LIKE '" +
-        vacina.nomeLab.toString() +
-        "')" +
-        ")");
+    await db.query(
+        "INSERT INTO VACINA (NOME_VACINA,LOTE, VALIDADE, QUANTIDADE, LAB_ID)" +
+            "VALUES ('" +
+            vacina.nome.toString() +
+            "', '" +
+            vacina.lote.toString() +
+            "','" +
+            vacina.validade.toString() +
+            "','" +
+            vacina.quantidade.toString() +
+            "'," +
+            "(SELECT LABORATORIO.LAB_ID FROM LABORATORIO WHERE LABORATORIO.NOME LIKE '" +
+            vacina.nomeLab.toString() +
+            "')" +
+            ")");
   }
 
-  Future<void> inserirPaciente(Paciente paciente) async {
-    // PostgreSQLConnection db = await instance.database;
-    // //INSERT INTO PACIENTE (NOME,IDADE) VALUES ('Sara',85);
-    // await db.query("INSERT INTO PACIENTE (NOME,IDADE) VALUES ('" +
-    //     paciente.name +
-    //     "'," +
-    //     paciente.age.toString() +
-    //     ")");
+  Future<void> inserirPaciente(String tipoPaciente, String condicaoEspecial,
+      String nome, String email, String cpf, String dateNasc) async {
+    print("object");
+    PostgreSQLConnection db = await instance.database;
+    await db.query(
+        "INSERT INTO PACIENTE (TIPO_PACIENTE,CONDICAO_ESPECIAL,NOME,EMAIL,CPF,DATA_NASC) " +
+            "VALUES ('" +
+            tipoPaciente +
+            "','" +
+            condicaoEspecial +
+            "','" +
+            nome +
+            "','" +
+            email +
+            "','" +
+            cpf +
+            "','" +
+            dateNasc +
+            "')");
+    print("object2");
   }
 }

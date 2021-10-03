@@ -141,6 +141,8 @@ class _PacienteInformacaoProMedicoState
   final dbHelper = DatabaseHelper.instance;
   Paciente paciente;
 
+  TextEditingController vacinaNomeController = new TextEditingController();
+
   @override
   void initState() {
     dbHelper.getPaciente(widget.pacienteId).then((value) {
@@ -201,7 +203,33 @@ class _PacienteInformacaoProMedicoState
             ),
             ElevatedButton(
               //style: style,
-              onPressed: () {},
+              onPressed: () {
+                //pop up para receber o nome da vacina
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("teste"),
+                        content: TextField(
+                          controller: vacinaNomeController,
+                        ),
+                        actions: <Widget>[
+                          MaterialButton(
+                            elevation: 5.0,
+                            child: Text('Submit'),
+                            onPressed: () {
+                              print("ROLAAAAAAAA");
+                              print(vacinaNomeController.value.text);
+                              Navigator.pop(context);
+                            },
+                          )
+                        ],
+                      );
+                    });
+                print("ROLAAAAAAAA");
+                print(vacinaNomeController.value.text);
+                //inserindo no banco a vacina aplicada no paciente
+              },
               child: const Text('inserir'),
             ),
             SizedBox(

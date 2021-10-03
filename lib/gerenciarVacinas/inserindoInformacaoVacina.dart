@@ -24,6 +24,7 @@ class InserindoInformacaoVacinaMenu extends StatefulWidget {
 class _InserindoInformacaoVacinaMenu
     extends State<InserindoInformacaoVacinaMenu> {
   final dbHelper = DatabaseHelper.instance;
+  TextEditingController nomeVacinaController = new TextEditingController();
   TextEditingController loteVacinaController = new TextEditingController();
   TextEditingController quantidadeVacinaController =
       new TextEditingController();
@@ -52,6 +53,15 @@ class _InserindoInformacaoVacinaMenu
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
+              TextField(
+                controller: nomeVacinaController,
+                decoration: InputDecoration(
+                    labelText: 'Nome',
+                    suffixIcon: Icon(Icons.supervised_user_circle)),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               //lote
               TextField(
                 controller: loteVacinaController,
@@ -116,6 +126,7 @@ class _InserindoInformacaoVacinaMenu
                 ),
                 onPressed: () {
                   Vacina vac = new Vacina(
+                      nomeVacinaController.value.text,
                       0,
                       int.parse(loteVacinaController.value.text),
                       dataFormat.format(_dateTime),

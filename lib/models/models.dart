@@ -21,11 +21,13 @@ class Laboratorio {
 }
 
 class Vacina {
+  final String nome;
   final int idVac;
   final int lote;
   final String validade;
   final int quantidade;
   final String nomeLab;
 
-  Vacina(this.idVac, this.lote, this.validade, this.quantidade, this.nomeLab);
+  Vacina(this.nome, this.idVac, this.lote, this.validade, this.quantidade,
+      this.nomeLab);
 }
