@@ -1,3 +1,3 @@
-library vacina.teste;
+library vacina.user;
 
 String cpf;

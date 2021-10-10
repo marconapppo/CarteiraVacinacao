@@ -29,7 +29,7 @@ class MainMenuProfissional extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Carteira"),
+        title: const Text("Carteira do Profissional de Saúde"),
       ),
       body: Menu(),
     );

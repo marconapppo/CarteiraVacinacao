@@ -31,9 +31,3 @@ class Vacina {
   Vacina(this.nome, this.idVac, this.lote, this.validade, this.quantidade,
       this.nomeLab);
 }
-
-class Usuario {
-  final String cpf;
-
-  Usuario(this.cpf);
-}

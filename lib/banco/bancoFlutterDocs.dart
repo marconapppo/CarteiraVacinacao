@@ -82,6 +82,16 @@ class DatabaseHelper {
     return resultado;
   }
 
+  Future<List<String>> getAllVacinaNome() async {
+    PostgreSQLConnection db = await instance.database;
+    var results = await db.query('SELECT NOME_VACINA FROM VACINA');
+    List<String> resutado = new List<String>();
+    for (var row in results) {
+      resutado.add(row[0].toString());
+    }
+    return resutado;
+  }
+
   Future<void> inserirVacina(Vacina vacina) async {
     PostgreSQLConnection db = await instance.database;
     await db.query(
@@ -154,6 +164,37 @@ class DatabaseHelper {
             "')");
   }
 
+  Future<void> inserirRegistroVacinacao(
+      String local,
+      String dataVacinado,
+      String dataProxDose,
+      String nomeVacina,
+      String nomePaciente,
+      String profissionalCpf) async {
+    PostgreSQLConnection db = await instance.database;
+    await db.query(
+        "INSERT INTO REGISTRO_VACINACAO ( LOCAL, DATA_VACINADO, DATA_PROX_DOSE, VACINA_ID, PACIENTE_ID, PROFISSIONAL_SAUDE_ID) " +
+            "VALUES ('" +
+            local +
+            "', '" +
+            dataVacinado +
+            "', '" +
+            dataProxDose +
+            "', (" +
+            "SELECT VACINA_ID FROM VACINA WHERE NOME_VACINA LIKE '" +
+            nomeVacina +
+            "'" +
+            "), (" +
+            "SELECT PACIENTE_ID FROM PACIENTE WHERE NOME LIKE '" +
+            nomePaciente +
+            "'" +
+            "), (" +
+            "SELECT PROFISSIONAL_SAUDE_ID FROM PROFISSIONAL_SAUDE WHERE CPF LIKE '" +
+            profissionalCpf +
+            "'" +
+            "))");
+  }
+
   Future<bool> getUsuarioProfissional(String cpf, String senha) async {
     PostgreSQLConnection db = await instance.database;
     var result = await db.query(
@@ -188,7 +229,4 @@ class DatabaseHelper {
     }
     return false;
   }
-
-  Future<void> registroVacinacao(
-      String nomePaciente, String nomeVacina) async {}
 }
