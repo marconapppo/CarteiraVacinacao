@@ -122,4 +122,73 @@ class DatabaseHelper {
             "')");
     print("object2");
   }
+
+  Future<void> inserirProfissional(
+      String Adm,
+      String Tipo,
+      String Crm,
+      String senha,
+      String nome,
+      String email,
+      String cpf,
+      String dateNasc) async {
+    PostgreSQLConnection db = await instance.database;
+    await db.query(
+        "INSERT INTO PROFISSIONAL_SAUDE (ADM,TIPO_PROFISSIONAL,CRM,SENHA,NOME,EMAIL,CPF,DATA_NASC) " +
+            "VALUES (" +
+            Adm +
+            ",'" +
+            Tipo +
+            "','" +
+            Crm +
+            "','" +
+            senha +
+            "','" +
+            nome +
+            "','" +
+            email +
+            "','" +
+            cpf +
+            "','" +
+            dateNasc +
+            "')");
+  }
+
+  Future<bool> getUsuarioProfissional(String cpf, String senha) async {
+    PostgreSQLConnection db = await instance.database;
+    var result = await db.query(
+        "SELECT NOME FROM PROFISSIONAL_SAUDE WHERE CPF LIKE '" +
+            cpf +
+            "' AND SENHA LIKE '" +
+            senha +
+            "'");
+    String resultado = "";
+    for (var row in result) {
+      resultado = row[0].toString();
+    }
+    if (resultado.isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> getUsuarioPaciente(String cpf, String senha) async {
+    PostgreSQLConnection db = await instance.database;
+    var result = await db.query("SELECT NOME FROM PACIENTE WHERE CPF LIKE '" +
+        cpf +
+        "' AND SENHA LIKE '" +
+        senha +
+        "'");
+    String resultado;
+    for (var row in result) {
+      resultado = row[0];
+    }
+    if (resultado.isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> registroVacinacao(
+      String nomePaciente, String nomeVacina) async {}
 }

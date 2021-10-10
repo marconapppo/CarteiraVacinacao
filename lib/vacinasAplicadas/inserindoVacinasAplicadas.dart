@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vacina/models/models.dart';
+
+import 'package:vacina/models/UserCpf.dart' as user;
 
 class InserindoVacinasAplicadas extends StatelessWidget {
   InserindoVacinasAplicadas(this.namePaciente);
@@ -15,8 +18,19 @@ class InserindoVacinasAplicadas extends StatelessWidget {
   }
 }
 
-class InserindoVacinasAplicadasMenu extends StatelessWidget {
+class InserindoVacinasAplicadasMenu extends StatefulWidget {
   InserindoVacinasAplicadasMenu(this.namePaciente);
+
+  final String namePaciente;
+
+  @override
+  _InserindoVacinasAplicadasMenu createState() =>
+      _InserindoVacinasAplicadasMenu(namePaciente);
+}
+
+class _InserindoVacinasAplicadasMenu
+    extends State<InserindoVacinasAplicadasMenu> {
+  _InserindoVacinasAplicadasMenu(this.namePaciente);
 
   final String namePaciente;
   @override
@@ -30,6 +44,18 @@ class InserindoVacinasAplicadasMenu extends StatelessWidget {
                 labelText: namePaciente,
                 suffixIcon: Icon(Icons.supervised_user_circle)),
           ),
+          ElevatedButton(
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.blue,
+              primary: Colors.black,
+              textStyle: const TextStyle(fontSize: 20),
+            ),
+            onPressed: () {
+              //print(usuario.cpf);
+              print(user.cpf);
+            },
+            child: const Text('Cadastrar Profissional da Saúde'),
+          )
         ],
       ),
     );
