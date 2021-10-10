@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:vacina/models/models.dart';
 import 'package:vacina/banco/bancoFlutterDocs.dart';
@@ -142,6 +144,9 @@ class _PacienteInformacaoProMedicoState
   final dbHelper = DatabaseHelper.instance;
   Paciente paciente;
 
+  //listas
+  List<Map<String, dynamic>> _allVacinas;
+
   @override
   void initState() {
     dbHelper.getPaciente(widget.pacienteId).then((value) {
@@ -149,13 +154,13 @@ class _PacienteInformacaoProMedicoState
         paciente = value;
       });
     });
+    dbHelper.getVacinaIdNomeDose(widget.pacienteId).then((value) {
+      setState(() {
+        _allVacinas = value;
+      });
+    });
     super.initState();
   }
-
-  final List<Map<String, dynamic>> _allVacinas = [
-    {"id": 1, "name": "Hepatite B", "dose": 2},
-    {"id": 2, "name": "Pfzier", "dose": 1},
-  ];
 
   @override
   Widget build(BuildContext context) {

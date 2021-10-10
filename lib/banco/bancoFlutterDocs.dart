@@ -53,6 +53,28 @@ class DatabaseHelper {
     return listaLaboratorios;
   }
 
+  Future<List<Map<String, dynamic>>> getVacinaIdNomeDose(int pacienteId) async {
+    PostgreSQLConnection db = await instance.database;
+    var results = await db.query(
+        "SELECT VACINA.VACINA_ID, VACINA.NOME_VACINA, VACINA.LOTE FROM REGISTRO_VACINACAO" +
+            " INNER JOIN VACINA ON VACINA.VACINA_ID = REGISTRO_VACINACAO.VACINA_ID" +
+            " INNER JOIN PACIENTE ON PACIENTE.PACIENTE_ID = REGISTRO_VACINACAO.PACIENTE_ID" +
+            " WHERE PACIENTE.PACIENTE_ID = " +
+            pacienteId.toString());
+    List<Map<String, dynamic>> listaVacina = [];
+    Map<String, dynamic> map;
+    for (var row in results) {
+      print(row[0].toString());
+      map = {
+        "id": row[0].toString(),
+        "name": row[1],
+        "dose": int.parse(row[2])
+      };
+      listaVacina.add(Map.from(map));
+    }
+    return listaVacina;
+  }
+
   Future<Paciente> getPaciente(int pacienteId) async {
     PostgreSQLConnection db = await instance.database;
     var results = await db.query(
