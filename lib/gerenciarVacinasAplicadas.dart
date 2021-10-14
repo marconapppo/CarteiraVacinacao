@@ -144,14 +144,22 @@ class _PacienteInformacaoProMedicoState
   final dbHelper = DatabaseHelper.instance;
   Paciente paciente;
 
+  //controllers
+  var nomePacienteController = TextEditingController()..text = "nome";
+  var condicaoPacienteController = TextEditingController()..text = "Nenhuma";
+  var dataPacienteController = TextEditingController()..text = "Data";
+
   //listas
-  List<Map<String, dynamic>> _allVacinas;
+  List<Map<String, dynamic>> _allVacinas = [];
 
   @override
   void initState() {
     dbHelper.getPaciente(widget.pacienteId).then((value) {
       setState(() {
         paciente = value;
+        nomePacienteController.text = value.name;
+        condicaoPacienteController.text = value.condicaoEspecial;
+        dataPacienteController.text = value.dataNasc;
       });
     });
     dbHelper.getVacinaIdNomeDose(widget.pacienteId).then((value) {
@@ -177,7 +185,7 @@ class _PacienteInformacaoProMedicoState
             //Alterções quanto ao front devem ser implementadas no InputDecoration, lembrar de disabilitar o
             //TextFormFild sim usar enabled : false, pois este cancela as alterções de InputDecoration
             TextFormField(
-              initialValue: paciente.name,
+              controller: nomePacienteController,
               enabled: false,
               decoration: InputDecoration(
                 labelText: 'Nome:',
@@ -188,7 +196,7 @@ class _PacienteInformacaoProMedicoState
             ),
             //condicao Especial (lembrar de alocar do banco aqui dps no initialValue)
             TextFormField(
-              initialValue: paciente.condicaoEspecial,
+              controller: condicaoPacienteController,
               enabled: false,
               decoration:
                   const InputDecoration(labelText: 'Condicao Especial:'),
@@ -198,7 +206,7 @@ class _PacienteInformacaoProMedicoState
             ),
             //data Nascimento (fica pro futuro)
             TextFormField(
-              initialValue: paciente.dataNasc,
+              controller: dataPacienteController,
               enabled: false,
               decoration: const InputDecoration(labelText: 'Data Nascimento:'),
             ),

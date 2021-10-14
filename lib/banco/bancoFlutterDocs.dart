@@ -64,7 +64,6 @@ class DatabaseHelper {
     List<Map<String, dynamic>> listaVacina = [];
     Map<String, dynamic> map;
     for (var row in results) {
-      print(row[0].toString());
       map = {
         "id": row[0].toString(),
         "name": row[1],
@@ -135,7 +134,6 @@ class DatabaseHelper {
 
   Future<void> inserirPaciente(String tipoPaciente, String condicaoEspecial,
       String nome, String email, String cpf, String dateNasc) async {
-    print("object");
     PostgreSQLConnection db = await instance.database;
     await db.query(
         "INSERT INTO PACIENTE (TIPO_PACIENTE,CONDICAO_ESPECIAL,NOME,EMAIL,CPF,DATA_NASC) " +
@@ -152,7 +150,6 @@ class DatabaseHelper {
             "','" +
             dateNasc +
             "')");
-    print("object2");
   }
 
   Future<void> inserirProfissional(

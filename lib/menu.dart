@@ -22,7 +22,6 @@ class _Menu extends State<Menu> {
   void initState() {
     dbHelper.getAdm(user.cpf).then((value) {
       setState(() {
-        print(value);
         Adm = value;
       });
     });
