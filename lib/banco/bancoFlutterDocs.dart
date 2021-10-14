@@ -251,4 +251,22 @@ class DatabaseHelper {
     }
     return false;
   }
+
+  Future<bool> getAdm(String cpf) async {
+    PostgreSQLConnection db = await instance.database;
+    var result = await db.query(
+        "SELECT ADM FROM PROFISSIONAL_SAUDE WHERE CPF LIKE '" + cpf + "'");
+    String resultado;
+    for (var row in result) {
+      resultado = row[0].toString();
+    }
+    if (resultado.isNotEmpty) {
+      if (resultado == "true") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
 }

@@ -3,10 +3,32 @@ import 'package:vacina/gerenciarPacientes.dart';
 import 'package:vacina/gerenciarVacinas.dart';
 import 'package:vacina/gerenciarVacinasAplicadas.dart';
 
+import 'banco/bancoFlutterDocs.dart';
+import 'cadastro.dart';
 import 'gerenciarVacinas.dart';
 //import 'package:flutter/src/widgets/framework.dart';
+import 'models/UserCpf.dart' as user;
 
-class Menu extends StatelessWidget {
+class Menu extends StatefulWidget {
+  @override
+  _Menu createState() => _Menu();
+}
+
+class _Menu extends State<Menu> {
+  final dbHelper = DatabaseHelper.instance;
+  bool Adm = false;
+
+  @override
+  void initState() {
+    dbHelper.getAdm(user.cpf).then((value) {
+      setState(() {
+        print(value);
+        Adm = value;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -63,6 +85,19 @@ class Menu extends StatelessWidget {
             ),
             onPressed: () {},
             child: const Text('Gerenciar Campanhas'),
+          ),
+          const SizedBox(height: 30),
+          ElevatedButton(
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.blue,
+              primary: Colors.black,
+              textStyle: const TextStyle(fontSize: 20),
+            ),
+            onPressed: Adm
+                ? () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Cadastro()))
+                : null,
+            child: const Text('Cadastrar Profissional Saude'),
           ),
           const SizedBox(height: 30),
           ElevatedButton(
