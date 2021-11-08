@@ -38,6 +38,7 @@ class DatabaseHelper {
       map = {"id": row[0].toString(), "name": row[1], "email": row[2]};
       listaPacientes.add(Map.from(map));
     }
+    await db.close();
     return listaPacientes;
   }
 
@@ -50,7 +51,24 @@ class DatabaseHelper {
     for (var row in results) {
       listaLaboratorios.add(new Laboratorio(row[0], row[1].toString()));
     }
+    await db.close();
     return listaLaboratorios;
+  }
+
+  Future<List<String>> getVacina(int vacinaId) async {
+    PostgreSQLConnection db = await instance.database;
+    var results = await db
+        .query('SELECT * FROM VACINA WHERE VACINA_ID =' + vacinaId.toString());
+    List<String> listaInformacoesVacina = [];
+    for (var row in results) {
+      listaInformacoesVacina.add(row[1].toString());
+      listaInformacoesVacina.add(row[2].toString());
+      listaInformacoesVacina.add(row[3].toString());
+      listaInformacoesVacina.add(row[4].toString());
+      listaInformacoesVacina.add(row[5].toString());
+    }
+    await db.close();
+    return listaInformacoesVacina;
   }
 
   Future<List<Map<String, dynamic>>> getVacinaIdNomeDose(int pacienteId) async {
@@ -71,6 +89,7 @@ class DatabaseHelper {
       };
       listaVacina.add(Map.from(map));
     }
+    await db.close();
     return listaVacina;
   }
 
@@ -87,6 +106,7 @@ class DatabaseHelper {
       paciente = new Paciente(
           row[0], row[1], data.format(DateTime.parse(row[2].toString())));
     }
+    await db.close();
     return paciente;
   }
 
@@ -100,6 +120,19 @@ class DatabaseHelper {
     for (var row in results) {
       resultado = int.parse(row[0]);
     }
+    await db.close();
+    return resultado;
+  }
+
+  Future<String> getLaboratoriaPorId(int laboratorioId) async {
+    PostgreSQLConnection db = await instance.database;
+    var results = await db.query('SELECT NOME FROM LABORATORIO WHERE LAB_ID =' +
+        laboratorioId.toString());
+    String resultado = "";
+    for (var row in results) {
+      resultado = row[0].toString();
+    }
+    await db.close();
     return resultado;
   }
 
@@ -110,6 +143,7 @@ class DatabaseHelper {
     for (var row in results) {
       resutado.add(row[0].toString());
     }
+    await db.close();
     return resutado;
   }
 
@@ -130,17 +164,26 @@ class DatabaseHelper {
             vacina.nomeLab.toString() +
             "')" +
             ")");
+    await db.close();
   }
 
-  Future<void> inserirPaciente(String tipoPaciente, String condicaoEspecial,
-      String nome, String email, String cpf, String dateNasc) async {
+  Future<void> inserirPaciente(
+      String tipoPaciente,
+      String condicaoEspecial,
+      String senha,
+      String nome,
+      String email,
+      String cpf,
+      String dateNasc) async {
     PostgreSQLConnection db = await instance.database;
     await db.query(
-        "INSERT INTO PACIENTE (TIPO_PACIENTE,CONDICAO_ESPECIAL,NOME,EMAIL,CPF,DATA_NASC) " +
+        "INSERT INTO PACIENTE (TIPO_PACIENTE,CONDICAO_ESPECIAL,SENHA,NOME,EMAIL,CPF,DATA_NASC) " +
             "VALUES ('" +
             tipoPaciente +
             "','" +
             condicaoEspecial +
+            "','" +
+            senha +
             "','" +
             nome +
             "','" +
@@ -150,6 +193,7 @@ class DatabaseHelper {
             "','" +
             dateNasc +
             "')");
+    await db.close();
   }
 
   Future<void> inserirProfissional(
@@ -181,6 +225,7 @@ class DatabaseHelper {
             "','" +
             dateNasc +
             "')");
+    await db.close();
   }
 
   Future<void> inserirRegistroVacinacao(
@@ -212,6 +257,7 @@ class DatabaseHelper {
             profissionalCpf +
             "'" +
             "))");
+    await db.close();
   }
 
   Future<bool> getUsuarioProfissional(String cpf, String senha) async {
@@ -226,6 +272,7 @@ class DatabaseHelper {
     for (var row in result) {
       resultado = row[0].toString();
     }
+    await db.close();
     if (resultado.isNotEmpty) {
       return true;
     }
@@ -239,6 +286,7 @@ class DatabaseHelper {
         "' AND SENHA LIKE '" +
         senha +
         "'");
+    await db.close();
     String resultado;
     for (var row in result) {
       resultado = row[0];
@@ -254,6 +302,7 @@ class DatabaseHelper {
     var result = await db.query(
         "SELECT ADM FROM PROFISSIONAL_SAUDE WHERE CPF LIKE '" + cpf + "'");
     String resultado;
+    await db.close();
     for (var row in result) {
       resultado = row[0].toString();
     }
@@ -265,5 +314,41 @@ class DatabaseHelper {
       }
     }
     return false;
+  }
+
+  Future<int> getIdPaciente(String cpf) async {
+    PostgreSQLConnection db = await instance.database;
+    var result = await db
+        .query("SELECT PACIENTE_ID FROM PACIENTE WHERE CPF LIKE '" + cpf + "'");
+    await db.close();
+    int resultado;
+    for (var row in result) {
+      resultado = int.parse(row[0].toString());
+    }
+    return resultado;
+  }
+
+  Future<void> removeRegistroVacinacaoSendoProfissional(
+      int vacinaId, int pacienteId) async {
+    PostgreSQLConnection db = await instance.database;
+    var result = await db.query(
+        "DELETE FROM REGISTRO_VACINACAO WHERE VACINA_ID =" +
+            vacinaId.toString() +
+            " AND PACIENTE_ID =" +
+            pacienteId.toString());
+    await db.close();
+  }
+
+  Future<void> removeRegistroVacinacaoSendoPaciente(
+      int vacinaId, int pacienteId) async {
+    //DELETE FROM REGISTRO_VACINACAO WHERE VACINA_ID = 1 AND PACIENTE_ID = 1 AND PROFISSIONAL_SAUDE_ID is null;
+    PostgreSQLConnection db = await instance.database;
+    var result = await db.query(
+        "DELETE FROM REGISTRO_VACINACAO WHERE VACINA_ID =" +
+            vacinaId.toString() +
+            " AND PACIENTE_ID =" +
+            pacienteId.toString() +
+            " AND PROFISSIONAL_SAUDE_ID IS null");
+    await db.close();
   }
 }

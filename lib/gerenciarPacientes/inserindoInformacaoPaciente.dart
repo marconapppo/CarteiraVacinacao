@@ -23,6 +23,7 @@ class InserindoInformacaoPacienteMenu extends StatelessWidget {
   TextEditingController nomePacienteController = new TextEditingController();
   TextEditingController emailPacienteController = new TextEditingController();
   TextEditingController cpfPacienteController = new TextEditingController();
+  TextEditingController senhaPacienteController = new TextEditingController();
   //use o controle de data somente para vizualizacao, mas na hora de mandar pro banco use _datetime
   TextEditingController dataNascPacienteController = new TextEditingController()
     ..text = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -55,6 +56,12 @@ class InserindoInformacaoPacienteMenu extends StatelessWidget {
                 controller: cpfPacienteController,
                 decoration: InputDecoration(
                     labelText: 'CPF',
+                    suffixIcon: Icon(Icons.supervised_user_circle)),
+              ),
+              TextField(
+                controller: senhaPacienteController,
+                decoration: InputDecoration(
+                    labelText: 'Senha',
                     suffixIcon: Icon(Icons.supervised_user_circle)),
               ),
               TextField(
@@ -101,6 +108,7 @@ class InserindoInformacaoPacienteMenu extends StatelessWidget {
                   dbHelper.inserirPaciente(
                       tipoPacienteController.value.text,
                       condicaoEspecialPacienteController.value.text,
+                      senhaPacienteController.value.text,
                       nomePacienteController.value.text,
                       emailPacienteController.value.text,
                       cpfPacienteController.value.text,

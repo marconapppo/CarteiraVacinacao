@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:vacina/models/models.dart';
 import 'package:vacina/banco/bancoFlutterDocs.dart';
 import 'package:vacina/vacinasAplicadas/inserindoVacinasAplicadas.dart';
+import 'package:vacina/vacinasAplicadas/mostrarVacina.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 
 class VacinasAplicadas extends StatelessWidget {
@@ -110,8 +111,7 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.black,
                           ),
                           title: Text(_foundUsers[index]['name']),
-                          subtitle:
-                              Text('${_foundUsers[index]["email"]} years old'),
+                          subtitle: Text('${_foundUsers[index]["email"]}'),
                         ),
                       ),
                     )
@@ -227,11 +227,7 @@ class _PacienteInformacaoProMedicoState
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              //style: style,
-              onPressed: () {},
-              child: const Text('excluir'),
-            ),
+
             Expanded(
               child: _allVacinas.length > 0
                   ? ListView.builder(
@@ -246,6 +242,12 @@ class _PacienteInformacaoProMedicoState
                           //continuação trab
                           onTap: () {
                             setState(() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => InformacaoVacina(
+                                          int.parse(_allVacinas[index]["id"]),
+                                          widget.pacienteId)));
                               //_allVacinas.removeAt(0);
                             });
                           },

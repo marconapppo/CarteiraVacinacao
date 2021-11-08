@@ -24,10 +24,13 @@ class InserindoInformacaoVacinaMenu extends StatefulWidget {
 class _InserindoInformacaoVacinaMenu
     extends State<InserindoInformacaoVacinaMenu> {
   final dbHelper = DatabaseHelper.instance;
+  final dateFormat = new DateFormat('yyyy-MM-dd');
   TextEditingController nomeVacinaController = new TextEditingController();
   TextEditingController loteVacinaController = new TextEditingController();
   TextEditingController quantidadeVacinaController =
       new TextEditingController();
+  TextEditingController dataNascPacienteController = new TextEditingController()
+    ..text = DateFormat('yyyy-MM-dd').format(DateTime.now());
   DateTime _dateTime;
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentLab;
@@ -83,13 +86,13 @@ class _InserindoInformacaoVacinaMenu
                 height: 20,
               ),
               //validade
-              ElevatedButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  primary: Colors.black,
-                  textStyle: const TextStyle(fontSize: 20),
+              TextField(
+                controller: dataNascPacienteController,
+                decoration: InputDecoration(
+                  labelText: 'Data-Nasc',
+                  suffixIcon: Icon(Icons.supervised_user_circle),
                 ),
-                onPressed: () {
+                onTap: () {
                   showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -97,9 +100,10 @@ class _InserindoInformacaoVacinaMenu
                           lastDate: DateTime(2030))
                       .then((value) {
                     _dateTime = value;
+                    dataNascPacienteController
+                      ..text = dateFormat.format(_dateTime);
                   });
                 },
-                child: const Text('Pegar Data Validade'),
               ),
               SizedBox(
                 height: 20,

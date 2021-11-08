@@ -10,6 +10,9 @@ class CarteiraLoginMenu extends StatelessWidget {
         //grupo de botoes
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          Image.asset(
+            'assets/images/logo.png',
+          ),
           ElevatedButton(
             style: TextButton.styleFrom(
               backgroundColor: Colors.blue,

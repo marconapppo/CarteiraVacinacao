@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'banco/bancoFlutterDocs.dart';
 import 'main.dart';
+import 'package:vacina/gerenciarVacinasAplicadas.dart';
 
 import 'models/UserCpf.dart' as user;
 
@@ -28,7 +31,9 @@ class _LoginMenu extends State<LoginMenu> {
   TextEditingController cpfController = new TextEditingController();
   //use o controle de data somente para vizualizacao, mas na hora de mandar pro banco use _datetime
   TextEditingController SenhaController = new TextEditingController();
-  bool validacaoUser;
+  bool validacaoUser = false;
+
+  int pacienteId;
 
   //comboBox
   List<DropdownMenuItem<String>> _dropDownMenuItems;
@@ -56,6 +61,7 @@ class _LoginMenu extends State<LoginMenu> {
               ),
               TextField(
                 controller: SenhaController,
+                obscureText: true,
                 decoration: InputDecoration(
                     labelText: 'Senha',
                     suffixIcon: Icon(Icons.supervised_user_circle)),
@@ -78,10 +84,11 @@ class _LoginMenu extends State<LoginMenu> {
                   primary: Colors.black,
                   textStyle: const TextStyle(fontSize: 20),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   user.cpf = cpfController.text;
+                  validacaoUser = false;
                   if (_currentUsuario == "Profissional") {
-                    dbHelper
+                    await dbHelper
                         .getUsuarioProfissional(
                             cpfController.text, SenhaController.text)
                         .then((value) {
@@ -89,6 +96,7 @@ class _LoginMenu extends State<LoginMenu> {
                         validacaoUser = value;
                       });
                     });
+                    sleep(Duration(seconds: 1));
                     if (validacaoUser == true) {
                       Navigator.push(
                           context,
@@ -98,7 +106,7 @@ class _LoginMenu extends State<LoginMenu> {
                       print("n deu");
                     }
                   } else {
-                    dbHelper
+                    await dbHelper
                         .getUsuarioPaciente(
                             cpfController.text, SenhaController.text)
                         .then((value) {
@@ -106,8 +114,22 @@ class _LoginMenu extends State<LoginMenu> {
                         validacaoUser = value;
                       });
                     });
+                    await dbHelper
+                        .getIdPaciente(cpfController.text)
+                        .then((value) {
+                      setState(() {
+                        pacienteId = value;
+                      });
+                    });
                     if (validacaoUser == true) {
-                      print("deu certo");
+                      user.cpf = null;
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PacienteInformacaoProMedico(
+                                  pacienteId: pacienteId)));
+                    } else {
+                      print("n deu");
                     }
                   }
                 },

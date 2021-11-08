@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vacina/banco/bancoFlutterDocs.dart';
-import 'package:vacina/models/models.dart';
 
 import 'package:vacina/models/UserCpf.dart' as user;
 
@@ -148,9 +147,7 @@ class _InserindoVacinasAplicadasMenu
 
 List<DropdownMenuItem<String>> getDropDownMenuItems(List<String> listVac) {
   List<DropdownMenuItem<String>> items = new List();
-  print("ola");
   for (String item in listVac) {
-    print(item);
     items.add(new DropdownMenuItem(value: item, child: new Text(item)));
   }
   return items;

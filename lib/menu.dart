@@ -82,16 +82,6 @@ class _Menu extends State<Menu> {
               primary: Colors.black,
               textStyle: const TextStyle(fontSize: 20),
             ),
-            onPressed: () {},
-            child: const Text('Gerenciar Campanhas'),
-          ),
-          const SizedBox(height: 30),
-          ElevatedButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.blue,
-              primary: Colors.black,
-              textStyle: const TextStyle(fontSize: 20),
-            ),
             onPressed: Adm
                 ? () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Cadastro()))
