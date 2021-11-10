@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Carteira de vacinação'),
         ),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         body: CarteiraLoginMenu(),
       ),
       debugShowCheckedModeBanner: false,
