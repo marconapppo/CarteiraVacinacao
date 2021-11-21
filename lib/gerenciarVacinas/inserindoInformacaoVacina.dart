@@ -9,6 +9,7 @@ class InserindoInformacaoVacina extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Inserindo Vacina"),
       ),
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: InserindoInformacaoVacinaMenu(),
     );
   }
@@ -52,6 +53,7 @@ class _InserindoInformacaoVacinaMenu
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -110,6 +112,8 @@ class _InserindoInformacaoVacinaMenu
               ),
               //comboBox
               DropdownButton(
+                dropdownColor: Color.fromARGB(255, 130, 205, 255),
+                iconEnabledColor: Colors.red,
                 value: _currentLab,
                 items: _dropDownMenuItems,
                 onChanged: (value) {

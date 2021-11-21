@@ -14,6 +14,7 @@ class InserindoVacinasAplicadas extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Inserindo Vacinas Aplicadas"),
       ),
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: InserindoVacinasAplicadasMenu(namePaciente),
     );
   }
@@ -114,6 +115,8 @@ class _InserindoVacinasAplicadasMenu
             },
           ),
           DropdownButton(
+            dropdownColor: Color.fromARGB(255, 130, 205, 255),
+            iconEnabledColor: Colors.red,
             value: _currentVac,
             items: _dropDownMenuItems,
             onChanged: (value) {

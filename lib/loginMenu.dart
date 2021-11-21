@@ -6,6 +6,7 @@ class CarteiraLoginMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: Column(
         //grupo de botoes
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,8 +26,8 @@ class CarteiraLoginMenu extends StatelessWidget {
                 primary: Colors.blue,
                 onPrimary: Colors.black,
                 textStyle: const TextStyle(fontSize: 20),
-                padding: EdgeInsets.all(10.0),
-                alignment: Alignment.topRight,
+                //padding: EdgeInsets.all(10.0),
+                alignment: Alignment.center,
               ),
               onPressed: () {
                 Navigator.push(

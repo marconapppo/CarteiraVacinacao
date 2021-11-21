@@ -14,6 +14,7 @@ class VacinasAplicadas extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Vacinas Aplicadas"),
       ),
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: HomePage(),
     );
   }
@@ -70,6 +71,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -92,11 +94,11 @@ class _HomePageState extends State<HomePage> {
                       // front-end
                       itemBuilder: (context, index) => Card(
                         key: ValueKey(_foundUsers[index]["id"]),
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 130, 205, 255),
                         elevation: 4,
                         margin: EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
-                          //continuação trab
+                          //continuação trabr
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -176,6 +178,7 @@ class _PacienteInformacaoProMedicoState
       appBar: AppBar(
         title: const Text("Vacinas Aplicadas"),
       ),
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: Center(
         child: Column(
           children: [
@@ -214,6 +217,11 @@ class _PacienteInformacaoProMedicoState
               height: 20,
             ),
             ElevatedButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                primary: Colors.black,
+                textStyle: const TextStyle(fontSize: 16),
+              ),
               //style: style,
               onPressed: () {
                 Navigator.push(
@@ -235,7 +243,7 @@ class _PacienteInformacaoProMedicoState
                       // front-end
                       itemBuilder: (context, index) => Card(
                         key: ValueKey(_allVacinas[index]["id"]),
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 130, 205, 255),
                         elevation: 4,
                         margin: EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(

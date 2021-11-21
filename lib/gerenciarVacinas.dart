@@ -11,6 +11,7 @@ class GerenciarVacinas extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Gerenciar Vacinas"),
       ),
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: MenuGerenciarVacinas(),
     );
   }

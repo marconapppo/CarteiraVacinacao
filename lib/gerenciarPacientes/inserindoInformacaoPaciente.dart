@@ -36,6 +36,7 @@ class InserindoInformacaoPacienteMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(

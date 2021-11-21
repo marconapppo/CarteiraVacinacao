@@ -49,6 +49,7 @@ class _LoginMenu extends State<LoginMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -67,6 +68,8 @@ class _LoginMenu extends State<LoginMenu> {
                     suffixIcon: Icon(Icons.supervised_user_circle)),
               ),
               DropdownButton(
+                dropdownColor: Color.fromARGB(255, 130, 205, 255),
+                iconEnabledColor: Colors.red,
                 value: _currentUsuario,
                 items: _dropDownMenuItems,
                 onChanged: (value) {

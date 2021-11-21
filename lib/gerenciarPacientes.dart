@@ -12,6 +12,7 @@ class GerenciarPacientes extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Gerenciar Pacientes"),
       ),
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: MenuGerenciarPacientes(),
     );
   }
