@@ -140,7 +140,7 @@ class _InserindoVacinasAplicadasMenu
                   namePaciente,
                   user.cpf);
             },
-            child: const Text('Cadastrar Profissional da Saúde'),
+            child: const Text('Inserir Vacina'),
           )
         ],
       ),
