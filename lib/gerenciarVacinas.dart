@@ -51,7 +51,7 @@ class MenuGerenciarVacinas extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => EditandoInformacaoPaciente()));
             },
-            child: const Text('Editar Paciente'),
+            child: const Text('Editar Vacina'),
           ),
           const SizedBox(height: 30),
           ElevatedButton(
@@ -66,7 +66,7 @@ class MenuGerenciarVacinas extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => InserindoInformacaoPaciente()));
             },
-            child: const Text('Excluir Paciente'),
+            child: const Text('Excluir Vacina'),
           ),
           const SizedBox(height: 30),
         ],
