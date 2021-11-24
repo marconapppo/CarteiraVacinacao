@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:postgres/postgres.dart';
 import 'package:vacina/models/models.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 class DatabaseHelper {
   // make this a singleton class
@@ -19,8 +21,12 @@ class DatabaseHelper {
   // Realizando a conexao com o banco
   // 10.0.2.2 = é o localhost para android
   Future<PostgreSQLConnection> initDatabase() async {
-    var conn = PostgreSQLConnection('10.0.2.2', 5432, 'vacinadb',
-        username: 'postgres', password: 'Bakate');
+    var conn = PostgreSQLConnection(
+        'ec2-3-231-112-124.compute-1.amazonaws.com', 5432, 'd75c2cvctvbemn',
+        username: 'meuhkggdvqirgq',
+        password:
+            'ca7dfcb1432094136cf8371f3dbb2b4040dfe8c8bf3f7e8ceb50d79434e53ed9',
+        useSSL: true);
     await conn.open();
     return conn;
   }

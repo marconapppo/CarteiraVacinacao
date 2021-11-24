@@ -13,6 +13,7 @@ class InformacaoVacina extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Vacina informacoes"),
       ),
+      backgroundColor: Color.fromARGB(255, 204, 235, 253),
       body: InformacaoVacinaMenu(vacinaId, pacienteId),
     );
   }

@@ -61,6 +61,7 @@ class InserindoInformacaoPacienteMenu extends StatelessWidget {
               ),
               TextField(
                 controller: senhaPacienteController,
+                obscureText: true,
                 decoration: InputDecoration(
                     labelText: 'Senha',
                     suffixIcon: Icon(Icons.supervised_user_circle)),
