@@ -1,5 +1,3 @@
-Git do projeto: https://github.com/marconapppo/CarteiraVacinacao
-
 Necessita estar instalado na sua máquina além do Git os seguintes programas:
 
 •	Flutter
